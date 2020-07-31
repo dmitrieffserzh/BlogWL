@@ -20,8 +20,8 @@ class BlogListScreen extends Screen
     public function query(): array
     {
         return [
-            'article_active' => Post::where('published', '1')->filters()->defaultSort('id', 'asc')->paginate(),
-            'article_draft'  => Post::where('published', '0')->filters()->defaultSort('id', 'asc')->paginate()
+            'post_active' => Post::where('published', '1')->filters()->defaultSort('created_at', 'asc')->paginate(),
+            'post_draft'  => Post::where('published', '0')->filters()->defaultSort('created_at', 'asc')->paginate()
         ];
     }
 

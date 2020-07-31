@@ -1,16 +1,24 @@
-
-.bg-dark .nav>li.active>a {
-    background: #474b52;
-    border-radius: .5rem 0 0 0;
-    overflow: hidden;
-}
-.bg-dark .nav>li>a:hover {
+.bg-dark .nav > li > a:focus,
+.bg-dark .nav > li > a:hover {
+    background-color: #474b52;
     border-radius: .5rem 0 0 .5rem !important;
 }
+
+.bg-dark .nav > li.active > a {
+    background: #474b52;
+    border-radius: .5rem 0 0 .5rem;
+    overflow: hidden;
+}
+
 .sub-menu {
     background: rgb(52, 56, 62);
-    border-radius: .5rem 0 0 0 !important;
+    border-radius: .5rem 0 0 .5rem !important;
 }
+
 .dropdown-item {
     padding: .5rem;
+}
+
+.dropdown-item:hover {
+    border-radius: .5rem 0 0 .5rem;
 }

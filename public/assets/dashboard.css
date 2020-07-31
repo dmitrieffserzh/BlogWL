@@ -1,0 +1,13 @@
+
+.bg-dark .nav>li.active>a {
+    background: #474b52;
+    border-radius: .5rem 0 0 0;
+    overflow: hidden;
+}
+.sub-menu {
+    background: rgb(52, 56, 62);
+    border-radius: .5rem 0 0 0 !important;
+}
+.dropdown-item {
+    padding: .5rem;
+}

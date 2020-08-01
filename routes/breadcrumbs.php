@@ -55,8 +55,14 @@ Breadcrumbs::for('platform.example.layouts', function (BreadcrumbsGenerator $tra
     $trail->push(__('Overview layouts'));
 });
 
-// Platform > Blogs
-Breadcrumbs::for('platform.blogs', function (BreadcrumbsGenerator $trail) {
+// Platform -> Posts
+Breadcrumbs::for('platform.posts', function (BreadcrumbsGenerator $trail) {
     $trail->parent('platform.index');
-    $trail->push(__('Все записи'), route('platform.blogs'));
+    $trail->push(__('Публикации'), route('platform.posts'));
+});
+
+// Platform -> Posts -> Create
+Breadcrumbs::for('platform.posts.create', function (BreadcrumbsGenerator $trail) {
+    $trail->parent('platform.posts');
+    $trail->push(__('Создать публикацию'), route('platform.posts.create'));
 });

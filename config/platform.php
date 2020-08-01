@@ -110,7 +110,8 @@ return [
     */
 
     'resource' => [
-        'stylesheets' => ['/assets/dashboard.css'],
+        //'stylesheets' => ['/assets/dashboard.css'],
+        'stylesheets' => [],
         'scripts'     => [],
     ],
 

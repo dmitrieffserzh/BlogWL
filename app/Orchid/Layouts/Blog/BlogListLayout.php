@@ -31,7 +31,7 @@ class BlogListLayout extends Table
             TD::set('title', 'Заголовок')
                 ->sort()
                 ->render(function (Post $post) {
-                    $route = route('platform.blogs.edit', $post);
+                    $route = route('platform.blog.post.edit', $post);
                     $title = e($post->title);
                     return "<a href='{$route}' class='font-weight-bold'>{$title}</a>";
                 }),
@@ -49,7 +49,7 @@ class BlogListLayout extends Table
                 ->width('85px')
                 ->sort()
                 ->render(function (Post $post) {
-                    $route = route('platform.blogs.edit', $post);
+                    $route = route('platform.blog.post.edit', $post);
                     return "<a href='{$route}' class='d-inline-block text-primary p-2'><i class='icon-pencil'></i></a><a href='{$route}' class='text-danger p-2'><i class='icon-trash'></i></a>";
                 })
 

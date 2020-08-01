@@ -14,8 +14,8 @@ use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\User\UserEditScreen;
 use App\Orchid\Screens\User\UserListScreen;
-use App\Orchid\Screens\Blog\BlogListScreen;
-use App\Orchid\Screens\Blog\BlogEditScreen;
+use App\Orchid\Screens\Post\PostEditScreen;
+use App\Orchid\Screens\Post\PostListScreen;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,10 +33,10 @@ use Illuminate\Support\Facades\Route;
 Route::screen('/main', PlatformScreen::class)->name('platform.main');
 
 
-// Blogs
-Route::screen('blogs/{post}/edit', BlogEditScreen::class)->name('platform.blogs.edit');
-Route::screen('blogs/create', BlogListScreen::class)->name('platform.blogs.create');
-Route::screen('blogs', BlogListScreen::class)->name('platform.blogs');
+// Posts
+Route::screen('/posts/{post}/edit', PostEditScreen::class)->name('platform.posts.edit');
+Route::screen('/posts/create', PostEditScreen::class)->name('platform.posts.create');
+Route::screen('/posts', PostListScreen::class)->name('platform.posts');
 
 
 // Users...

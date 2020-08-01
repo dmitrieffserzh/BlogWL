@@ -42,24 +42,17 @@ class MainMenuComposer
                     ->route('platform.main')
             )
             ->add(Menu::MAIN,
-                ItemMenu::label('Блог')
-                    ->icon('icon-bubble')
-                    ->slug('blogs')
-                    ->title('Контент')
-                    ->active('platform.blogs')
-                    ->childs()
-            )
-            ->add('blogs',
-                ItemMenu::label('Все записи')
-                    ->route('platform.blogs')
+                ItemMenu::label('Публикации')
+                    ->route('platform.posts')
                     ->icon('icon-docs')
+                    ->title('Блог')
             )
-            ->add('blogs',
+            ->add(Menu::MAIN,
                 ItemMenu::label('Категории')
                     ->route('platform.example')
                     ->icon('icon-folder')
             )
-            ->add('blogs',
+            ->add(Menu::MAIN,
                 ItemMenu::label('Теги')
                     ->route('platform.example')
                     ->icon('icon-tag')
@@ -92,7 +85,7 @@ class MainMenuComposer
                     ->icon('icon-doc')
                     ->url('https://orchid.software/en/docs')
             )
-            /*
+
             ->add(Menu::MAIN,
                 ItemMenu::label('Example screen')
                     ->icon('icon-monitor')
@@ -144,6 +137,6 @@ class MainMenuComposer
                 ItemMenu::label('Cards')
                     ->icon('icon-grid')
                     ->route('platform.example.cards')
-            )*/;
+            );
     }
 }

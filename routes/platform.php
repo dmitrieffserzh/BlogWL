@@ -16,6 +16,7 @@ use App\Orchid\Screens\User\UserEditScreen;
 use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\Post\PostEditScreen;
 use App\Orchid\Screens\Post\PostListScreen;
+use App\Orchid\Screens\Category\CategoryListScreen;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +33,8 @@ use Illuminate\Support\Facades\Route;
 // Main
 Route::screen('/main', PlatformScreen::class)->name('platform.main');
 
+// Categories
+Route::screen('/categories', CategoryListScreen::class)->name('platform.categories');
 
 // Posts
 Route::screen('/posts/{post}/edit', PostEditScreen::class)->name('platform.posts.edit');

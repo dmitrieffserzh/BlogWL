@@ -66,3 +66,15 @@ Breadcrumbs::for('platform.posts.create', function (BreadcrumbsGenerator $trail)
     $trail->parent('platform.posts');
     $trail->push(__('Создать публикацию'), route('platform.posts.create'));
 });
+
+// Platform -> Posts -> Edit
+Breadcrumbs::for('platform.posts.edit', function (BreadcrumbsGenerator $trail, $post) {
+    $trail->parent('platform.posts');
+    $trail->push(__('Изменить публикацию'), route('platform.posts.edit', $post));
+});
+
+// Platform -> Categories
+Breadcrumbs::for('platform.categories', function (BreadcrumbsGenerator $trail) {
+    $trail->parent('platform.index');
+    $trail->push(__('Категории'), route('platform.categories'));
+});

@@ -5,12 +5,9 @@ declare(strict_types=1);
 namespace App\Orchid\Layouts\Post;
 
 use App\Models\Post;
-use Orchid\Platform\Models\User;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\Link;
-use Orchid\Screen\Actions\ModalToggle;
-use Orchid\Screen\Layouts\Persona;
 use Orchid\Screen\Layouts\Table;
 use Orchid\Screen\TD;
 
@@ -69,16 +66,6 @@ class PostListLayout extends Table
                                     ->style('color: #df0031'),
                             ]);
                     }),
-
-
-            /*
-             function (Post $post) {
-             $route_edit = route('platform.posts.edit', $post);
-             $route_destroy = route('platform.posts.edit', $post);
-             return "<a href='{$route_edit}' class='d-inline-block text-primary p-2'><i class='icon-pencil'></i></a><a href='{$route_destroy}' class='text-danger p-2'><i class='icon-trash'></i></a>";
-         })*/
-
-
         ];
     }
 }

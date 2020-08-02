@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Orchid\Layouts\Blog;
+namespace App\Orchid\Layouts\__Blog;
 
 use App\Models\Post;
 use Orchid\Platform\Models\User;

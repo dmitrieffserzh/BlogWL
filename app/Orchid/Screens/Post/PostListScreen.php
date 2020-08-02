@@ -5,7 +5,6 @@ namespace App\Orchid\Screens\Post;
 use App\Models\Post;
 use App\Orchid\Layouts\Post\PostListLayout;
 use Illuminate\Http\Request;
-use Orchid\Platform\Models\User;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Layout;
 use Orchid\Screen\Screen;

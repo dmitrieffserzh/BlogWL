@@ -49,7 +49,7 @@ class MainMenuComposer
             )
             ->add(Menu::MAIN,
                 ItemMenu::label('Категории')
-                    ->route('platform.example')
+                    ->route('platform.categories')
                     ->icon('icon-folder')
             )
             ->add(Menu::MAIN,

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Orchid\Layouts\Post;
 
 use App\Models\Category;
+use App\Models\Post;
 use Orchid\Platform\Models\Role;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Fields\Cropper;
@@ -20,9 +21,9 @@ use Orchid\Support\Color;
 class PostEditLayout extends Rows
 {
 
-
     public function fields(): array
     {
+
         return [
             Input::make('post.title')->size('100')
                 ->type('text')
@@ -33,9 +34,9 @@ class PostEditLayout extends Rows
                 ->style('max-width: 100%'),
 
             Group::make([
-                Select::make('post.category')
-                    //->empty('Не выбрано')
+                Select::make('post.category_id.$categories')
                     ->options($this->getCategory())
+                    ->value($this->query["post"]['category_id'])
                     ->required()
                     ->title(__('Категория'))
                     ->style('max-width: 100% !important'),

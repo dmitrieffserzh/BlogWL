@@ -33,7 +33,8 @@ class PostEditScreen extends Screen
 
         return [
             'post' => $post,
-            'post.category' => $categories
+            'post.category_id' => $post->categoty_id,
+            'post.categories' => $categories
         ];
     }
 

@@ -32,6 +32,8 @@ class Post extends Model
         'title',
         'content',
         'author_id',
+        'slug',
+        'image',
         'category_id',
         'published',
         'created_at',

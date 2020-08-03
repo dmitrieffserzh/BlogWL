@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Orchid\Layouts\Post;
 
-use App\Models\Category;
-use App\Models\Post;
 use Orchid\Platform\Models\Role;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Fields\Cropper;
@@ -34,9 +32,9 @@ class PostEditLayout extends Rows
                 ->style('max-width: 100%'),
 
             Group::make([
-                Select::make('post.category_id.$categories')
-                    ->options($this->getCategory())
-                    ->value($this->query["post"]['category_id'])
+                Select::make('post.category_id')
+                    ->options($this->getOptionCategory($this->query['categories']))
+                    ->value($this->query['post']['category_id'])
                     ->required()
                     ->title(__('Категория'))
                     ->style('max-width: 100% !important'),
@@ -45,46 +43,26 @@ class PostEditLayout extends Rows
                     ->multiple()
                     ->title('Теги'),
                 Switcher::make('post.published')
-                    ->value(1)
+                    ->value($this->query['post']['published'])
                     ->placeholder('Опубликовать на сайте')
                     ->title('Видимость')
                     ->help('или сохранить в черновик')
             ])->fullWidth(),
 
-            Cropper::make('post.picture')
+            Cropper::make('post.image')
                 ->title(__('Постер'))
+                ->maxFileSize(2)
                 ->width(900)
                 ->height(350)
-                ->targetRelativeUrl(),
+                ->targetUrl(),
 
             Quill::make('post.content')->height('500px'),
 
             Group::make([
-                Button::make('Опубликовать')->type(Color::PRIMARY())->icon('icon-check'),
+                Button::make('Опубликовать')->type(Color::PRIMARY())->icon('icon-check')->method('save'),
                 Button::make('Отменить')->type(Color::DEFAULT())->icon('icon-close')
             ])->autoWidth()
         ];
-    }
-
-
-    public function getChildrenCategory($categories, $prefix = '')
-    {
-        $result = [];
-        if (isset($category->data))
-            $categories = $categories->data;
-
-        foreach ($categories as $category) {
-            $category->title = $prefix . ' ' . $category->title;
-            if (isset($category->child) && count($category->child) > 0) {
-                $elem = unserialize(serialize($category));
-                unset($elem->child);
-                array_push($result, $elem);
-                $result = array_merge($result, $this->getChildrenCategory($category->child, $prefix . '-'));
-            } else {
-                array_push($result, $category);
-            }
-        }
-        return $result;
     }
 
     public function getOptionCategory($categories)
@@ -95,13 +73,5 @@ class PostEditLayout extends Rows
             $options = array_merge($options, $value);
         }
         return $options;
-    }
-
-    function getCategory()
-    {
-        $categories = Category::with('child')->where('parent_id', '0')->get();
-        $result = $this->getChildrenCategory($categories);
-        $result = $this->getOptionCategory($result);
-        return (object)$result;
     }
 }

@@ -63,7 +63,7 @@ class UserEditScreen extends Screen
         $this->user = $user;
 
         return [
-            'user'       => $user,
+            'user' => $user,
             'permission' => $user->getStatusPermission(),
         ];
     }
@@ -93,7 +93,7 @@ class UserEditScreen extends Screen
                         ->icon('icon-screen-smartphone')
                         ->method('enableTwoFactorAuth')
                         ->modal('twoFactorEnabled')
-                        ->canSee(! $this->user->uses_two_factor_auth)
+                        ->canSee(!$this->user->uses_two_factor_auth)
                         ->asyncParameters([
                             'users' => $this->user->id,
                         ]),
@@ -121,9 +121,9 @@ class UserEditScreen extends Screen
     }
 
     /**
+     * @return Layout[]
      * @throws \Throwable
      *
-     * @return Layout[]
      */
     public function layout(): array
     {
@@ -152,7 +152,7 @@ class UserEditScreen extends Screen
     }
 
     /**
-     * @param User      $user
+     * @param User $user
      * @param Dashboard $dashboard
      *
      * @return array
@@ -163,15 +163,15 @@ class UserEditScreen extends Screen
 
         return [
             'secret' => $generator->getSecretKey(),
-            'image'  => $generator->getQrCode(config('app.name'), $user->email),
+            'image' => $generator->getQrCode(config('app.name'), $user->email),
         ];
     }
 
     /**
      * Enable two-factor authentication for the user.
      *
-     * @param User      $user
-     * @param Request   $request
+     * @param User $user
+     * @param Request $request
      * @param Dashboard $dashboard
      *
      * @return \Illuminate\Http\RedirectResponse
@@ -186,16 +186,16 @@ class UserEditScreen extends Screen
         $secret = $request->get('secret');
         $generator->setSecretKey($secret);
 
-        if (! $generator->verify($request->get('token'))) {
+        if (!$generator->verify($request->get('token'))) {
             return back()->withErrors([
                 'token' => __('This value is not valid'),
             ]);
         }
 
         $user->forceFill([
-            'uses_two_factor_auth'      => true,
-            'two_factor_secret_code'    => $request->get('secret'),
-            'two_factor_recovery_code'  => Str::random(8),
+            'uses_two_factor_auth' => true,
+            'two_factor_secret_code' => $request->get('secret'),
+            'two_factor_recovery_code' => Str::random(8),
         ])->save();
 
         Toast::success(__('Two-factor authentication has been enabled.'));
@@ -217,9 +217,9 @@ class UserEditScreen extends Screen
     public function disableTwoFactorAuth(User $user)
     {
         $user->forceFill([
-            'uses_two_factor_auth'      => false,
-            'two_factor_secret_code'    => null,
-            'two_factor_recovery_code'  => null,
+            'uses_two_factor_auth' => false,
+            'two_factor_secret_code' => null,
+            'two_factor_recovery_code' => null,
         ])->save();
 
         Toast::success(__('Two-factor authentication has been disabled.'));
@@ -228,7 +228,7 @@ class UserEditScreen extends Screen
     }
 
     /**
-     * @param User    $user
+     * @param User $user
      * @param Request $request
      *
      * @return \Illuminate\Http\RedirectResponse
@@ -236,7 +236,7 @@ class UserEditScreen extends Screen
     public function save(User $user, Request $request)
     {
         $request->validate([
-            'user.email' => 'required|unique:users,email,'.$user->id,
+            'user.email' => 'required|unique:users,email,' . $user->id,
         ]);
 
         $permissions = collect($request->get('permissions'))
@@ -262,9 +262,9 @@ class UserEditScreen extends Screen
     /**
      * @param User $user
      *
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      *
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function remove(User $user)
     {
@@ -288,7 +288,7 @@ class UserEditScreen extends Screen
     }
 
     /**
-     * @param User    $user
+     * @param User $user
      * @param Request $request
      *
      * @return \Illuminate\Http\RedirectResponse

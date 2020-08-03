@@ -2,11 +2,14 @@
 
 namespace App\Orchid\Screens\Post;
 
+use Auth;
 use App\Models\Category;
 use App\Models\Post;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
 use App\Orchid\Layouts\Post\PostEditLayout;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Toast;
 
@@ -21,7 +24,6 @@ class PostEditScreen extends Screen
 
     public function query(Post $post, Category $category): array
     {
-
         $this->exists = $post->exists;
 
         if ($this->exists) {
@@ -29,30 +31,27 @@ class PostEditScreen extends Screen
             $this->description = '';
         }
 
-        $categories = $this->children($category->with('child')->where('parent_id', 0)->get());
+        $categories = $this->children($category
+            ->with('child')
+            ->where('parent_id', 0)
+            ->get());
 
         return [
             'post' => $post,
-            'post.category_id' => $post->categoty_id,
-            'post.categories' => $categories
+            'categories' => $categories
         ];
     }
 
-    /**
-     * Button commands.
-     *
-     * @return Action[]
-     */
     public function commandBar(): array
     {
         return [
             Button::make('Опубликовать')
                 ->icon('icon-check')
-                ->method('create'),
+                ->method('save'),
 
             Button::make('Отменить')
                 ->icon('icon-close')
-                ->method('create'),
+                ->method('cancel'),
         ];
     }
 
@@ -65,17 +64,14 @@ class PostEditScreen extends Screen
 
     public function save(Post $post, Request $request)
     {
-        $request->validate([
-            'role.slug' => 'required|unique:roles,slug,' . $post->id,
-        ]);
-
         $post->fill($request->get('post'));
-
-        $post->save();
-
-        Toast::info(__('Role was saved'));
-
-        return redirect()->route('platform.systems.roles');
+        isset($request['post']['published']) ? $post->published = 1 : $post->published = 0;
+        $post->slug = Str::slug($request['post']['title']);
+        $post->user_id = Auth::id();
+        if ($post->save()) {
+            Toast::info(__('Публикация успешно сохранена!'));
+        }
+        return redirect()->route('platform.posts');
     }
 
 
@@ -91,11 +87,16 @@ class PostEditScreen extends Screen
                 $elem = unserialize(serialize($category));
                 unset($elem->child);
                 array_push($result, $elem);
-                $result = array_merge($result, $this->children($category->child, $prefix . '<span style="color:#79849e;"> &bull; </span>'));
+                $result = array_merge($result, $this->children($category->child, $prefix . '-'));
             } else {
                 array_push($result, $category);
             }
         }
         return $result;
+    }
+
+    public function cancel()
+    {
+        return redirect()->route('platform.posts');
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Orchid\Layouts\Post;
 
+use App\Models\Category;
 use Orchid\Platform\Models\Role;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Fields\Cropper;
@@ -19,6 +20,7 @@ use Orchid\Support\Color;
 class PostEditLayout extends Rows
 {
 
+
     public function fields(): array
     {
         return [
@@ -32,7 +34,8 @@ class PostEditLayout extends Rows
 
             Group::make([
                 Select::make('post.category')
-                    ->fromModel(Role::class, 'name')
+                    //->empty('Не выбрано')
+                    ->options($this->getCategory())
                     ->required()
                     ->title(__('Категория'))
                     ->style('max-width: 100% !important'),
@@ -60,5 +63,44 @@ class PostEditLayout extends Rows
                 Button::make('Отменить')->type(Color::DEFAULT())->icon('icon-close')
             ])->autoWidth()
         ];
+    }
+
+
+    public function getChildrenCategory($categories, $prefix = '')
+    {
+        $result = [];
+        if (isset($category->data))
+            $categories = $categories->data;
+
+        foreach ($categories as $category) {
+            $category->title = $prefix . ' ' . $category->title;
+            if (isset($category->child) && count($category->child) > 0) {
+                $elem = unserialize(serialize($category));
+                unset($elem->child);
+                array_push($result, $elem);
+                $result = array_merge($result, $this->getChildrenCategory($category->child, $prefix . '-'));
+            } else {
+                array_push($result, $category);
+            }
+        }
+        return $result;
+    }
+
+    public function getOptionCategory($categories)
+    {
+        $options = [];
+        foreach ($categories as $category) {
+            $value = [(string)$category->id => $category->title];
+            $options = array_merge($options, $value);
+        }
+        return $options;
+    }
+
+    function getCategory()
+    {
+        $categories = Category::with('child')->where('parent_id', '0')->get();
+        $result = $this->getChildrenCategory($categories);
+        $result = $this->getOptionCategory($result);
+        return (object)$result;
     }
 }

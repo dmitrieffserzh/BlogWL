@@ -2,8 +2,10 @@
 
 namespace App\Orchid\Screens\Post;
 
+
 use App\Models\Post;
-use App\Orchid\Layouts\Post\PostListLayout;
+use App\Orchid\Layouts\Post\PostListActiveLayout;
+use App\Orchid\Layouts\Post\PostListArchiveLayout;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Layout;
@@ -21,7 +23,7 @@ class PostListScreen extends Screen
     {
         return [
             'post_active' => Post::where('published', '1')->filters()->defaultSort('created_at', 'asc')->paginate(),
-            'post_draft' => Post::where('published', '0')->filters()->defaultSort('created_at', 'asc')->paginate()
+            'post_archive' => Post::where('published', '0')->filters()->defaultSort('created_at', 'asc')->paginate()
         ];
     }
 
@@ -43,8 +45,8 @@ class PostListScreen extends Screen
     {
         return [
             Layout::tabs([
-                'Активные публикации' => PostListLayout::class,
-                'Черновики' => PostListLayout::class,
+                'Активные публикации' => PostListActiveLayout::class,
+                'Черновики' => PostListArchiveLayout::class,
             ])
         ];
     }

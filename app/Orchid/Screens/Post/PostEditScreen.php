@@ -2,40 +2,38 @@
 
 namespace App\Orchid\Screens\Post;
 
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
-use Orchid\Platform\Models\Role;
 use Orchid\Screen\Actions\Button;
 use App\Orchid\Layouts\Post\PostEditLayout;
-use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Toast;
 
 class PostEditScreen extends Screen
 {
-    /**
-     * Display header name.
-     *
-     * @var string
-     */
+
     public $name = 'Создать публикацию';
 
-    /**
-     * Display header description.
-     *
-     * @var string
-     */
     public $description = 'Добавление новый публикации';
 
-    /**
-     * Query data.
-     *
-     * @return array
-     */
-    public function query(Post $post): array
+    public $exists = false;
+
+    public function query(Post $post, Category $category): array
     {
+
+        $this->exists = $post->exists;
+
+        if ($this->exists) {
+            $this->name = 'Редактирование публикации';
+            $this->description = '';
+        }
+
+        $categories = $this->children($category->with('child')->where('parent_id', 0)->get());
+
         return [
-            'post'       => $post,
+            'post' => $post,
+            'post.category' => $categories
         ];
     }
 
@@ -67,7 +65,7 @@ class PostEditScreen extends Screen
     public function save(Post $post, Request $request)
     {
         $request->validate([
-            'role.slug' => 'required|unique:roles,slug,'.$post->id,
+            'role.slug' => 'required|unique:roles,slug,' . $post->id,
         ]);
 
         $post->fill($request->get('post'));
@@ -77,5 +75,26 @@ class PostEditScreen extends Screen
         Toast::info(__('Role was saved'));
 
         return redirect()->route('platform.systems.roles');
+    }
+
+
+    public function children($categories, $prefix = '')
+    {
+        $result = [];
+        if (isset($category->data))
+            $categories = $categories->data;
+
+        foreach ($categories as $category) {
+            $category->title = $prefix . $category->title;
+            if (isset($category->child) && count($category->child) > 0) {
+                $elem = unserialize(serialize($category));
+                unset($elem->child);
+                array_push($result, $elem);
+                $result = array_merge($result, $this->children($category->child, $prefix . '<span style="color:#79849e;"> &bull; </span>'));
+            } else {
+                array_push($result, $category);
+            }
+        }
+        return $result;
     }
 }

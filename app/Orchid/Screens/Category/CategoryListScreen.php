@@ -18,12 +18,11 @@ class CategoryListScreen extends Screen
 
     public function query(): array
     {
-        $cat = Category::with('child')->where('parent_id', '0')->paginate(15);
+        $categories = Category::with('child')->where('parent_id', '0')->paginate(15);
 
-        $res = $this->children($cat);
+        $result = $this->children($categories);
         return [
-            'categories' => $res
-            //'delimiter'  => ''
+            'categories' => $result
         ];
     }
 
@@ -39,26 +38,24 @@ class CategoryListScreen extends Screen
         ];
     }
 
-    public function children($category, $prefix = '')
+    public function children($categories, $prefix = '')
     {
-
-        //dd($category);
-        $gg = [];
+        $result = [];
         if (isset($category->data))
-            $category = $category->data;
+            $categories = $categories->data;
 
-        foreach ($category as $cat) {
-            $cat->title = $prefix . $cat->title;
-            if (isset($cat->child) && count($cat->child) > 0) {
-                $elem = unserialize(serialize($cat));
+        foreach ($categories as $category) {
+            $category->title = $prefix . $category->title;
+            if (isset($category->child) && count($category->child) > 0) {
+                $elem = unserialize(serialize($category));
                 unset($elem->child);
-                array_push($gg, $elem);
-                $gg = array_merge($gg, $this->children($cat->child, $prefix . '<span style="color:#79849e;"> &bull; </span>'));
+                array_push($result, $elem);
+                $result = array_merge($result, $this->children($category->child, $prefix . '<span style="color:#79849e;"> &bull; </span>'));
             } else {
-                array_push($gg, $cat);
+                array_push($result, $category);
             }
         }
-        return $gg;
+        return $result;
     }
 
 }

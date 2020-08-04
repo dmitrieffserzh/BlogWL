@@ -6,7 +6,6 @@ namespace App\Orchid\Screens\Category;
 use App\Models\Category;
 use App\Orchid\Layouts\Category\CategoryListLayout;
 use Orchid\Screen\Screen;
-use phpDocumentor\Reflection\Types\Collection;
 
 class CategoryListScreen extends Screen
 {
@@ -18,7 +17,8 @@ class CategoryListScreen extends Screen
 
     public function query(): array
     {
-        $categories = Category::with('child')->where('parent_id', '0')->paginate(15);
+       // $categories = Category::with('child')->where('parent_id', 'null')->paginate(15);
+        $categories = Category::get()->toTree();
 
         $result = $this->children($categories);
         return [

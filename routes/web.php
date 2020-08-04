@@ -16,3 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// POSTS
+Route::group([
+    'prefix' => 'blog',
+    /*'middleware' => 'filter.view.counts'*/], function() {
+    Route::get('/',                             [ 'as' => 'blog',                         'uses' => 'PostController@index' ]);
+    Route::get('/{route}',                      [ 'as' => 'blog.url',                     'uses' => 'PostController@getURL' ])->where('route', '(.+)');
+});

@@ -14,12 +14,12 @@ class CreateCategoriesTable extends Migration
     public function up()
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('parent_id')->unsigned()->default(0);
+            $table->BigIncrements('id');
+            $table->unsignedInteger('parent_id')->nullable();
+            $table->unsignedInteger('_lft');
+            $table->unsignedInteger('_rgt');
             $table->string('title');
             $table->string('slug')->unique();
-            $table->string('color')->default('#007bff');
-            $table->timestamps();
         });
     }
 

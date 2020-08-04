@@ -11,6 +11,7 @@ class Post extends Model
 {
     use Filterable;
     use AsSource;
+    public $type = 'posts';
 
     protected $allowedFilters = [
         'id',
@@ -44,4 +45,10 @@ class Post extends Model
         'updated_at'
     ];
 
+
+
+    // RELATIONS
+    public function category() {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
 }

@@ -31,10 +31,7 @@ class PostEditScreen extends Screen
             $this->description = '';
         }
 
-        $categories = $this->children($category
-            ->with('child')
-            ->where('parent_id', 0)
-            ->get());
+        $categories = $this->children(Category::get()->toTree());
 
         return [
             'post' => $post,

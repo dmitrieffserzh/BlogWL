@@ -31,9 +31,9 @@
 </header>
 
 <!-- MAIN -->
-<main class="main">
+<main class="main content">
     <!-- SECTION -->
-    <section class="section">
+    <section class="section ">
         @yield('content')
     </section>
 

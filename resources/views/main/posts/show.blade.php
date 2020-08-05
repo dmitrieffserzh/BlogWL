@@ -1,4 +1,4 @@
-@extends('main.index')
+@extends('main.layouts.main')
 
 @section('content')
     <div class="col-md-12">

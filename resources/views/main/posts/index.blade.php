@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <section class="section">
+    <section class="section content">
         @if(Session::has('success'))
             <div class="alert alert-success alert-dismissible fade show">
                 {{ Session::get('success') }}

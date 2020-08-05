@@ -1,7 +1,7 @@
 @extends('main.layouts.main')
 
 @section('content')
-    <div class="col-md-12">
+    <div class="col-md-9">
         <h1 class="h4">{{ $item->title}}</h1>
         {{--@include('main.components.user_info.user_info-mini', ['content'=>$item])--}}
         <a href="{{ route('blog.url', implode("/", $item->category->ancestorsAndSelf($item->category_id)->pluck('slug')->all())) }}" class="news-tile__category-title">{{$item->category->title}}</a>

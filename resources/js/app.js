@@ -5,7 +5,7 @@
  */
 try {
     window.$ = window.jQuery = require('jquery');
- 
+
     // BOOTSTRAP COMPONENTS
     require('./_bootstrap/util/index.js');
 
@@ -20,12 +20,35 @@ try {
     console.log(e)
 }
 
+// MOBILE MENU
+$(function () {
 
+    // FUNCTIONS
+    var openMenu = function () {
+        //$('.main-menu').css({'height': $(window).outerHeight() + 130});
+        $('body').addClass('menu-open');
+    };
 
+    var closeMenu = function () {
+        $('body').removeClass('menu-open');
+    };
 
+    // EVENTS
+    $('.btn-menu, .substrate').click(function () {
+        if ($('body').hasClass('menu-open')) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    });
 
-
-
+    $(window).resize(function () {
+        if ($(window).width() > 768) {
+            closeMenu();
+            $('.main-menu').removeAttr('style');
+        }
+    });
+});
 
 
 // MODAL WINDOW
@@ -35,18 +58,18 @@ $(function () {
         event.preventDefault();
 
         // MODAL
-        let modal_window    = $('.modal');
-        let modal_container = $('.modal-dialog');
-        let modal_content   = '.modal-body';
+        var modal_window = $('.modal');
+        var modal_container = $('.modal-dialog');
+        var modal_content = '.modal-body';
 
         // DATA
-        let data_url        = $(this).data('url');
-        let data_type       = $(this).data('type');
-        let data_name       = $(this).data('name');
-        let data_content    = $(this).data('content');
-        let modal_size      = $(this).data('modal-size');
+        var data_url = $(this).data('url');
+        var data_type = $(this).data('type');
+        var data_name = $(this).data('name');
+        var data_content = $(this).data('content');
+        var modal_size = $(this).data('modal-size');
 
-        if(modal_size) modal_window.find(modal_container).addClass(modal_size);
+        if (modal_size) modal_window.find(modal_container).addClass(modal_size);
 
         modal_window.find(modal_container).append(
             '<div class="modal-content">' +
@@ -60,7 +83,7 @@ $(function () {
             '</div>' +
             '</div>');
 
-        if(data_url === '#') {
+        if (data_url === '#') {
             modal_window.find(modal_content).append(data_content);
             modal_window.modal('show');
         } else {
@@ -77,14 +100,14 @@ $(function () {
             });
         }
 
-        if(data_content) {
+        if (data_content) {
             modal_window.find(modal_content).append(data_content);
         }
 
         // CLEAR MODAL CONTENT
         modal_window.on('hidden.bs.modal', function () {
             $(this).find(modal_container).children().remove();
-            if(modal_size) modal_window.find(modal_container).removeClass(modal_size);
+            if (modal_size) modal_window.find(modal_container).removeClass(modal_size);
         });
     });
 });

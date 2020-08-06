@@ -19,7 +19,6 @@ body {
   -ms-backface-visibility: hidden;
 }
 
-
 .header {
   position: fixed;
   top: 0;
@@ -34,7 +33,6 @@ body {
   display: inline-block;
   float: left;
 }
-
 
 .main-menu {
   display: inline-block;
@@ -62,26 +60,41 @@ body {
     letter-spacing: .1rem;
     line-height: 3rem;
     transition: color .3s Linear;
-
     &:before {
       content: '';
       position: absolute;
       left: 50%;
       right: 50%;
       bottom: 0;
-      height: 1px;
+      height: 2px;
       background: #df0031;
       transition: left .3s Ease-in-out, right .3s Ease-in-out;
     }
-
     &:hover {
       color: #df0031;
     }
-
     &:hover:before {
       left: 0;
       right: 0;
     }
+  }
+}
+
+.btn-menu {
+  display: none;
+  float: right;
+  position: relative;
+  border: none;
+  padding: .5rem;
+  background: transparent;
+  z-index: 1002;
+  &__line {
+    display: block;
+    margin: .25rem 0;
+    width: 1.5rem;
+    height: 2px;
+    background: #3f4350;
+    transition: width .15s linear;
   }
 }
 
@@ -91,7 +104,7 @@ body {
   font-size: .7rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: .1rem;
+  letter-spacing: 0.0625rem;
   transition: color .3s Linear;
 
   & svg {
@@ -108,6 +121,53 @@ body {
   }
 }
 
+// MEDIA QUERIES
+@media screen and (max-width: 768px) {
+  .main-menu {
+    position: absolute;
+    top: 0;
+    left: -120%;
+    z-index: 1001;
+    padding: 3rem 1rem;
+    height: calc(100vh + 100px);
+    width: 70%;
+    background: #fff;
+    box-shadow: 0 0 10rem 0 rgba(66, 74, 117, 0.5);
+    transition: left .15s Ease-in-out;
+    &__item {
+      display: block;
+    }
+  }
+  .btn-menu {
+    display: inline-block;
+  }
+  .substrate {
+    opacity: 0;
+    transition: opacity .15s Linear;
+  }
+  .menu-open {
+    & .main-menu {
+      left: 0;
+    }
+    & .btn-menu {
+      &__line:nth-child(2) {
+        width: .75rem;
+        background: #df0031;
+      }
+    }
+    .substrate {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: -130px;
+      height: calc(100vh + 100px);
+      background: rgba(73, 68, 152, 0.1);
+      opacity: 1;
+    }
+  }
+}
 
 //
 //

@@ -9,7 +9,7 @@
     <title>
         @yield('title') | {{  __('main.title') }}
     </title>
-@section('description', __('main.title'))
+    @section('description', __('main.title'))
 
 <!-- STYLES -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -33,6 +33,12 @@
                 <li class="main-menu__item"><a href="">О мне :)</a></li>
             </ul>
         </nav>
+        <button class="btn-menu">
+            <span class="btn-menu__line"></span>
+            <span class="btn-menu__line"></span>
+            <span class="btn-menu__line"></span>
+        </button>
+        <span class="substrate"></span>
     </div>
 </header>
 <main class="main">
@@ -47,8 +53,8 @@
         </div>
     </div>
 </footer>
+<script src="{{ asset('js/app.js') }}"></script>
 @stack('scripts')
-
 
 
 
